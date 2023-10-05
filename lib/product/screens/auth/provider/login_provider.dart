@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:voco/feature/constants/database/shared_manager.dart';
 import 'package:voco/feature/constants/enums/shared_enums.dart';
+import 'package:voco/feature/models/login_model.dart';
 import 'package:voco/product/screens/auth/service/auth_service_repository_impl.dart';
 
 import '../../../../feature/components/snackBar/snackbar.dart';
@@ -41,7 +42,6 @@ class LoginProvider extends ChangeNotifier {
   String _userId = '';
   String get userId => _userId;
 
-
   bool _showPassword = false;
   bool get showPassword => _showPassword;
 
@@ -63,25 +63,16 @@ class LoginProvider extends ChangeNotifier {
     if (_userName.isNotEmpty && _password.isNotEmpty) {
       _loading = true;
       notifyListeners();
-
-      if (_rememberMe = true) {
-        await SharedManager().setString(SharedEnum.userNameLogin, _userName);
-        await SharedManager().setString(SharedEnum.password, _password);
-      }
-
       final response = await _authService.login(userName, password);
 
+      LoginModel loginModel;
       response.fold((login) {
-        // _setUserName(context);
-
         _isLoginSuccess = true;
+        notifyListeners();
 
         Future.delayed(const Duration(milliseconds: 2000), () {
-          // loginModel = login;
-          // _userToken = loginModel.accessToken ?? '';
-          // _userTokenName = userName;
-          // _setTokenToPreferences(login.refreshToken ?? '', login.id.toString());
-
+          loginModel = login;
+          _setTokenToPreferences(login.token ?? '');
           _setField();
         });
 
@@ -108,12 +99,9 @@ class LoginProvider extends ChangeNotifier {
     }
   }
 
-  void _setTokenToPreferences(String refreshToken, String userId) async {
-    if (_userToken != '' && _userName != '' && refreshToken != '' && userId != '' && userId != 'null') {
-      await SharedManager().setString(SharedEnum.userToken, _userToken);
-      await SharedManager().setString(SharedEnum.userName, _userTokenName);
-      await SharedManager().setString(SharedEnum.refreshToken, refreshToken);
-      await SharedManager().setString(SharedEnum.userId, userId);
+  void _setTokenToPreferences(String token) async {
+    if (token != '') {
+      await SharedManager().setString(SharedEnum.userToken, token);
     }
   }
 
@@ -146,11 +134,8 @@ class LoginProvider extends ChangeNotifier {
     _textFieldEmptyError = false;
     _isErrorActive = false;
     _userToken = '';
-    _userTokenName = '';
     notifyListeners();
   }
 }
 
-class LoginPassword extends ChangeNotifier {
-
-}
+class LoginPassword extends ChangeNotifier {}

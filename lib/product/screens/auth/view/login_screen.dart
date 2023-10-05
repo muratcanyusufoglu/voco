@@ -51,12 +51,15 @@ class _LoginScreenBodyState extends State<_LoginScreenBody> {
   @override
   void initState() {
     super.initState();
-    widget.provider.getRememberInfo();
   }
 
   @override
   Widget build(BuildContext context) {
-    widget.provider.isLoginSuccess ? context.go('/home') : null;
+    widget.provider.isLoginSuccess
+        ? () {
+            print('asd');
+          }
+        : null;
     return Scaffold(
       key: _globalKey,
       appBar: AppBar(),
@@ -67,6 +70,11 @@ class _LoginScreenBodyState extends State<_LoginScreenBody> {
                 _loginTitleWidget(),
                 _textFields(context, widget.provider),
                 _loginButton(),
+                TextButton(
+                    onPressed: () {
+                      context.go('/home');
+                    },
+                    child: Text('asdsdasda'))
               ],
             ),
     );
@@ -98,20 +106,6 @@ class _LoginScreenBodyState extends State<_LoginScreenBody> {
               changeVisibility: loginProvider.setShowPassword,
               showPassword: loginProvider.showPassword,
             ),
-            Row(
-              children: [
-                Text(_rememberMe),
-                Checkbox(
-                  checkColor: Colors.white,
-                  value: loginProvider.rememberMe,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      loginProvider.setRememberMe(value!);
-                    });
-                  },
-                ),
-              ],
-            ),
           ],
         ),
       ),
@@ -127,5 +121,4 @@ class _LoginScreenBodyState extends State<_LoginScreenBody> {
       ),
     );
   }
-
 }

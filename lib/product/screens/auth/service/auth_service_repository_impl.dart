@@ -2,25 +2,25 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:voco/feature/constants/paths/service_tools.dart';
 import 'package:voco/feature/exceptions/custom_service_exceptions.dart';
+import 'package:voco/feature/models/login_model.dart';
 
 import 'auth_service_repository.dart';
 
 class AuthServiceRepositoryImpl extends AuthServiceRepository {
   @override
-  Future<Either<bool, CustomServiceException>> login(String username, String password) async {
+  Future<Either<LoginModel, CustomServiceException>> login(String username, String password) async {
     @override
     String url = ServiceTools.loginUrl;
-
     try {
       final response = await super.dio.post(
             url,
-            data: {'username': username, 'password': password},
+            data: {'email': username, 'password': password},
             options: Options(),
           );
 
       final data = response.data;
-      //LoginModel loginModel = LoginModel.fromJson(data);
-      return const Left(true);
+      LoginModel loginModel = LoginModel.fromJson(data);
+      return Left(loginModel);
     } catch (error) {
       super.logger.e(error.toString());
       return Right(CustomServiceException(message: CustomServiceMessages.loginError, statusCode: '400'));
