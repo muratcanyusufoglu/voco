@@ -15,6 +15,7 @@ class LoginScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final loginProvider = ref.watch(LoginProvider.loginProvider);
+    loginProvider.isLoginSuccess ? context.go('/home') : null;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (loginProvider.isErrorActive) {
         snackBar(context, SnackbarStrings.loginError, 'error');
@@ -55,11 +56,7 @@ class _LoginScreenBodyState extends State<_LoginScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    widget.provider.isLoginSuccess
-        ? () {
-            print('asd');
-          }
-        : null;
+    widget.provider.isLoginSuccess ? context.go('/home') : null;
     return Scaffold(
       key: _globalKey,
       appBar: AppBar(),
@@ -70,11 +67,6 @@ class _LoginScreenBodyState extends State<_LoginScreenBody> {
                 _loginTitleWidget(),
                 _textFields(context, widget.provider),
                 _loginButton(),
-                TextButton(
-                    onPressed: () {
-                      context.go('/home');
-                    },
-                    child: Text('asdsdasda'))
               ],
             ),
     );
