@@ -9,7 +9,7 @@ class ServiceTools {
   static const String loginUrl =
       'https://reqres.in/api/login';
   static const String resourcesUrl =
-      'https://reqres.in/api/unknown';
+      'https://reqres.in/api/users?page=';
 
 }
 

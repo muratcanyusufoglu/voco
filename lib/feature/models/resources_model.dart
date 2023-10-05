@@ -5,19 +5,18 @@ part 'resources_model.g.dart';
 
 @JsonSerializable()
 class ResourcesModel extends Equatable {
-    final int? id;
-    final String? name;
-    final int? year;
-    final String? color;
-    final String? pantoneValue;
-
+  final int? id;
+  final String? email;
+  final String? firstName;
+  final String? lastName;
+  final String? avatar;
 
   const ResourcesModel({
-        this.id,
-        this.name,
-        this.year,
-        this.color,
-        this.pantoneValue,
+    this.id,
+    this.email,
+    this.firstName,
+    this.lastName,
+    this.avatar,
   });
 
   factory ResourcesModel.fromJson(Map<String, dynamic> json) => _$ResourcesModelFromJson(json);
@@ -29,16 +28,16 @@ class ResourcesModel extends Equatable {
       requestByModel.add(ResourcesModel.fromJson(item));
     }
     return requestByModel;
-    }
+  }
 
   Map<String, dynamic> toJson() => _$ResourcesModelToJson(this);
 
   @override
   List<Object?> get props => [
         id,
-        name,
-        year,
-        color,
-        pantoneValue,
+        email,
+        firstName,
+        lastName,
+        avatar,
       ];
 }

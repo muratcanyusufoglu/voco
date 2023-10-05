@@ -7,17 +7,17 @@ part of './resources_model.dart';
 // **************************************************************************
 
 ResourcesModel _$ResourcesModelFromJson(Map<String, dynamic> json) => ResourcesModel(
-      pantoneValue: json['pantone_value'] as String?,
-      name: json['name'] as String?,
-      color: json['color'] as String?,
+      email: json['email'] as String?,
+      firstName: json['first_name'] as String?,
+      lastName: json['last_name'] as String?,
       id: json['id'] as int?,
-      year: json['year'] as int?,
+      avatar: json['avatar'] as String?,
     );
 
 Map<String, dynamic> _$ResourcesModelToJson(ResourcesModel instance) => <String, dynamic>{
-      'pantone_value': instance.pantoneValue,
-      'name': instance.name,
-      'color': instance.color,
+      'email': instance.email,
+      'first_name': instance.firstName,
+      'last_name': instance.lastName,
       'id': instance.id,
-      'year': instance.year
+      'avatar': instance.avatar
     };

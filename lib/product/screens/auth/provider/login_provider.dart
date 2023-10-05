@@ -10,7 +10,7 @@ import '../../../../feature/injection.dart';
 
 class LoginProvider extends ChangeNotifier {
   final AuthServiceRepositoryImpl _authService = Injection.getIt.get<AuthServiceRepositoryImpl>();
-  static final loginProvider = ChangeNotifierProvider((_) => LoginProvider());
+  static final loginProvider = ChangeNotifierProvider((ref) => LoginProvider());
 
   bool _loading = false;
   bool get loading => _loading;
@@ -35,9 +35,6 @@ class LoginProvider extends ChangeNotifier {
 
   bool _rememberMe = false;
   bool get rememberMe => _rememberMe;
-
-  String _userToken = '';
-  String _userTokenName = '';
 
   String _userId = '';
   String get userId => _userId;
@@ -133,7 +130,6 @@ class LoginProvider extends ChangeNotifier {
     _isLoginSuccess = false;
     _textFieldEmptyError = false;
     _isErrorActive = false;
-    _userToken = '';
     notifyListeners();
   }
 }

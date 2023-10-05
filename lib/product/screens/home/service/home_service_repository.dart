@@ -11,7 +11,7 @@ abstract class HomeServiceRepository {
   final Dio dio = Injection.getIt.get<ServiceManager>().dio;
   final logger = Injection.getIt.get<LogManager>().logger;
 
-  Future<Either<List<ResourcesModel>, CustomServiceException>> getResources();
+  Future<Either<List<ResourcesModel>, CustomServiceException>> getResources(int index);
 
 }
 

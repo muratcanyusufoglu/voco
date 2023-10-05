@@ -46,7 +46,6 @@ class _LoginScreenBodyState extends State<_LoginScreenBody> {
   final String _userNameHint = 'Kullanıcı Adı';
   final String _passwordHint = 'Şifre';
   final String _login = 'Giriş Yap';
-  final String _rememberMe = 'Beni Hatırla';
 
   @override
   void initState() {
