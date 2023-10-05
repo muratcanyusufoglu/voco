@@ -22,6 +22,15 @@ class ResourcesModel extends Equatable {
 
   factory ResourcesModel.fromJson(Map<String, dynamic> json) => _$ResourcesModelFromJson(json);
 
+  static List<ResourcesModel> fromJsonList(List<dynamic> json) {
+    List<ResourcesModel> requestByModel = [];
+
+    for (var item in json) {
+      requestByModel.add(ResourcesModel.fromJson(item));
+    }
+    return requestByModel;
+    }
+
   Map<String, dynamic> toJson() => _$ResourcesModelToJson(this);
 
   @override
