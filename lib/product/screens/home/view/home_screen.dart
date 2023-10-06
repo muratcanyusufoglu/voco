@@ -10,31 +10,33 @@ class HomeScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final homeProvider = ref.watch(HomeProvider.homeProvider);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      homeProvider.fetchData ? homeProvider.getResources() : null;
+      homeProvider.fetchData ? homeProvider.getResources(homeProvider.currentPage) : null;
     });
-    return homeProvider.loading
-        ? Text('Loading')
-        : _homeBody(homeProvider);
+    return homeProvider.loading ? const Center(child: CircularProgressIndicator()) : _homeBody(homeProvider);
   }
 
   Scaffold _homeBody(HomeProvider homeProvider) {
     return Scaffold(
-        body: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: homeProvider.resourcesList.length ,
-                itemBuilder: (context, index) {
-                  if (index == homeProvider.resourcesList.length) return null;
-                  if (index == homeProvider.resourcesList.length && homeProvider.isLastPage) return null;
+      body: Column(
+        children: [
+          Expanded(
+            flex:1,
+            child: NotificationListener<ScrollNotification>(
+            onNotification: homeProvider.notificationController,
+            child: ListView.builder(
+              itemCount: homeProvider.resourcesList.length,
+              itemBuilder: (context, index) {
+                if (index == homeProvider.resourcesList.length) return null;
+                if (index == homeProvider.resourcesList.length && homeProvider.isLastPage) return null;
 
-                  final model = homeProvider.resourcesList[index];
-                  return CustomResourcesCard(data: model);
-                },
-              ),
+                final model = homeProvider.resourcesList[index];
+                return CustomResourcesCard(data: model);
+              },
             ),
-          ],
-        ),
-      );
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

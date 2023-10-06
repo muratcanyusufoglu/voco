@@ -33,26 +33,11 @@ class LoginProvider extends ChangeNotifier {
   bool _textFieldEmptyError = false;
   bool get textFieldEmptyError => _textFieldEmptyError;
 
-  bool _rememberMe = false;
-  bool get rememberMe => _rememberMe;
-
-  String _userId = '';
-  String get userId => _userId;
-
   bool _showPassword = false;
   bool get showPassword => _showPassword;
 
   void setShowPassword() {
     _showPassword = !showPassword;
-    notifyListeners();
-  }
-
-  void setRememberMe(bool value) {
-    _rememberMe = value;
-  }
-
-  void getRememberInfo() async {
-    _userNameController.text = await SharedManager().getString(SharedEnum.userNameLogin);
     notifyListeners();
   }
 
@@ -99,12 +84,12 @@ class LoginProvider extends ChangeNotifier {
   void _setTokenToPreferences(String token) async {
     if (token != '') {
       await SharedManager().setString(SharedEnum.userToken, token);
+      await SharedManager().getString(SharedEnum.userToken);
+      print(token.toString() + 'asdadsdsa');
+
+
     }
   }
-
-  // void _setUserName(BuildContext context) async {
-  //   Provider.of<GlobalProvider>(context, listen: false).setUserName(_userTokenName);
-  // }
 
   void _setField() {
     _userName = "";

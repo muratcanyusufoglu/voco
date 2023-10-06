@@ -16,6 +16,7 @@ class LoginScreen extends HookConsumerWidget {
     final loginProvider = ref.watch(LoginProvider.loginProvider);
     loginProvider.isLoginSuccess ? context.go('/home') : null;
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      loginProvider.isLoginSuccess ? context.go('/home') : null;
       if (loginProvider.isErrorActive) {
         snackBar(context, SnackbarStrings.loginError, 'error');
       }
@@ -59,7 +60,7 @@ class _LoginScreenBodyState extends State<_LoginScreenBody> {
       key: _globalKey,
       appBar: AppBar(),
       body: widget.provider.loading
-          ? const Text('Loading')
+          ? const Center(child: CircularProgressIndicator())
           : Column(
               children: <Widget>[
                 _loginTitleWidget(),
