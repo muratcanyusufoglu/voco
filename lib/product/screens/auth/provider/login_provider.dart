@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:voco/feature/constants/database/shared_manager.dart';
@@ -24,6 +26,9 @@ class LoginProvider extends ChangeNotifier {
   String _password = '';
   String get password => _password;
 
+  bool _userAlreadyLogin = false;
+  bool get userAlreadyLogin => _userAlreadyLogin;
+
   bool _isLoginSuccess = false;
   bool get isLoginSuccess => _isLoginSuccess;
 
@@ -35,6 +40,10 @@ class LoginProvider extends ChangeNotifier {
 
   bool _showPassword = false;
   bool get showPassword => _showPassword;
+  
+  late Timer _timer;
+  bool _isSplashFinished = false;
+  bool get isSplashFinished => _isSplashFinished;
 
   void setShowPassword() {
     _showPassword = !showPassword;
@@ -52,6 +61,7 @@ class LoginProvider extends ChangeNotifier {
         _isLoginSuccess = true;
         notifyListeners();
 
+        //servisten cevap döndükten sonra kullanıcının login sonucunu rahat görebilmesi
         Future.delayed(const Duration(milliseconds: 2000), () {
           loginModel = login;
           _setTokenToPreferences(login.token ?? '');
@@ -81,14 +91,26 @@ class LoginProvider extends ChangeNotifier {
     }
   }
 
+  //user tokenın kaydedilmesi
   void _setTokenToPreferences(String token) async {
     if (token != '') {
       await SharedManager().setString(SharedEnum.userToken, token);
-      await SharedManager().getString(SharedEnum.userToken);
-      print(token.toString() + 'asdadsdsa');
-
-
     }
+  }
+
+  void getTokenToPreferences() async {
+    await SharedManager().initInstances();
+    final String resp = await SharedManager().getString(SharedEnum.userToken);
+    if (resp != '') {
+      _userAlreadyLogin = true;
+    }
+        _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (timer.tick == 1) {
+        _timer.cancel();
+        _isSplashFinished = true;
+        notifyListeners();
+      }
+    });
   }
 
   void _setField() {

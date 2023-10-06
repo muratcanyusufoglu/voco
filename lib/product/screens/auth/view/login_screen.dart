@@ -14,7 +14,6 @@ class LoginScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final loginProvider = ref.watch(LoginProvider.loginProvider);
-    loginProvider.isLoginSuccess ? context.go('/home') : null;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       loginProvider.isLoginSuccess ? context.go('/home') : null;
       if (loginProvider.isErrorActive) {
